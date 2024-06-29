@@ -1,0 +1,42 @@
+services:
+  postgres:
+    container_name: postgres-sql-fm
+    image: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: finance_manager
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5422:5432
+    networks:
+      - finance-manager
+    restart: unless-stopped
+
+  mail-dev:
+    container_name: mail-dev-fm
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+
+networks:
+  finance-manager:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
+
+
+#services:
+#  postgres:
+#    image: 'postgres:latest'
+#    environment:
+#      - 'POSTGRES_DB=mydatabase'
+#      - 'POSTGRES_PASSWORD=secret'
+#      - 'POSTGRES_USER=myuser'
+#    ports:
+#      - '5432'
